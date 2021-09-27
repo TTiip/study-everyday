@@ -140,11 +140,29 @@ const checkType = (val, typeStr) => {
   }
 }
 
+/**
+ * 浏览器里取参数
+ * @param {需要获取的字段key} name
+ * @returns {*}
+ */
+const getUrlParam = (name: string) => {
+  // 用该属性获取页面 URL 地址从问号 (?) 开始的 URL（查询部分）
+  var url = window.location.search
+  // 正则筛选地址栏
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+  // 匹配目标参数
+  var result = url.substr(1).match(reg)
+  // 返回参数值
+  return result ? decodeURIComponent(result[2]) : null
+}
+
 export {
   // 生成水印
   watermark,
   // 文件转base64
   toBase64,
   // 判断文件的类型
-  checkType
+  checkType,
+  // 根据key获取浏览器中的参数值
+  getUrlParam
 }
