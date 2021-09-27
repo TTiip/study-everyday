@@ -112,7 +112,7 @@ const toBase64 = (file, callback) => {
 }
 
 /**
- *
+ * @desc 判断变量的类型
  * @param {需要检测的变量} val
  * @param {目标类型} typeStr
  * @returns {是否匹配}
@@ -161,7 +161,7 @@ export {
   watermark,
   // 文件转base64
   toBase64,
-  // 判断文件的类型
+  // 判断变量的类型
   checkType,
   // 根据key获取浏览器中的参数值
   getUrlParam
