@@ -114,7 +114,7 @@ const toBase64 = (file, callback) => {
 /**
  *
  * @param {需要检测的变量} val
- * @param {目标类型} type
+ * @param {目标类型} typeStr
  * @returns {是否匹配}
  */
 
