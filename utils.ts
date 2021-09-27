@@ -6,7 +6,7 @@
  * @param {生成水印的相关配置} config
  * @returns {没有返回值}
 */
-const watermark = (element, config) => {
+const watermark = (element: Element, config: { [props: string]: any }) => {
   // 获取元素的坐标
   function getOffset(el) {
     if (el.offsetParent) {
@@ -68,7 +68,7 @@ const watermark = (element, config) => {
       item.style.fontSize = `${_config.fontSize}px`
       item.style.color = _config.color
       item.style.textAlign = 'center'
-      item.style.opacity = _config.alpha
+      item.style.opacity = String(_config.alpha)
       item.style.filter = `alpha(opacity=${_config.alpha * 100})`
       item.style.transform = `rotate(-${_config.rotate}deg)`
       item.style.pointerEvents = 'none' // 让水印不遮挡页面的点击事件
@@ -102,7 +102,7 @@ const watermark = (element, config) => {
  * @param {函数执行成功以后的回调} callback
  * @returns {没有返回值}
  */
-const toBase64 = (file, callback) => {
+const toBase64 = (file: any, callback: (params?: any) => void) => {
   let reader = new FileReader()
   reader.readAsDataURL(file)
   reader.onload = function () {
@@ -118,7 +118,7 @@ const toBase64 = (file, callback) => {
  * @returns {是否匹配}
  */
 
-const checkType = (val, typeStr) => {
+const checkType = (val: any, typeStr: string) => {
   const typeArr = [
     'Number',
     'String',
@@ -156,6 +156,65 @@ const getUrlParam = (name: string) => {
   return result ? decodeURIComponent(result[2]) : null
 }
 
+/**
+ * @desc 函数防抖
+ * @param func 函数
+ * @param wait 延迟执行毫秒数
+ * @param immediate true 表立即执行，false 表非立即执行
+ */
+const debounce = (func: (params?: any) => void, wait = 1000, immediate: boolean) => {
+  let timeout
+
+  return function () {
+    let context = this
+    let args = arguments
+
+    if (timeout) clearTimeout(timeout)
+    if (immediate) {
+      var callNow = !timeout
+      timeout = setTimeout(() => {
+        timeout = null
+      }, wait)
+      if (callNow) func.apply(context, args)
+    }
+    else {
+      timeout = setTimeout(function () {
+        func.apply(context, args)
+      }, wait)
+    }
+  }
+}
+
+/**
+ * @desc 函数节流
+ * @param func 函数
+ * @param wait 延迟执行毫秒数
+ * @param type Timestamp 表时间戳版，Timer  表定时器版
+*/
+const throttle =(func: (params?: any) => void, wait = 1000, type = 'Timestamp') => {
+  let previous = 0
+  let timeout
+  return function () {
+    let context = this
+    let args = arguments
+    if (type === 'Timestamp') {
+      let now = Date.now()
+
+      if (now - previous > wait) {
+        func.apply(context, args)
+        previous = now
+      }
+    } else if (type === 'Timer') {
+      if (!timeout) {
+        timeout = setTimeout(() => {
+          timeout = null
+          func.apply(context, args)
+        }, wait)
+      }
+    }
+  }
+}
+
 export {
   // 生成水印
   watermark,
@@ -164,5 +223,9 @@ export {
   // 判断变量的类型
   checkType,
   // 根据key获取浏览器中的参数值
-  getUrlParam
+  getUrlParam,
+  // 函数防抖
+  debounce,
+  // 函数节流
+  throttle
 }
