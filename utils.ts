@@ -215,6 +215,35 @@ const throttle =(func: (params?: any) => void, wait = 1000, type = 'Timestamp') 
   }
 }
 
+/**
+ * @desc 函数节流
+ * @param func 函数
+ * @param wait 延迟执行毫秒数
+ * @param type Timestamp 表时间戳版，Timer  表定时器版
+*/
+const goBackTop = () => {
+  // 计算每次滚动的比例。
+  const getScrollRatio = (value: number) => value < 0.5 ? 1 - Math.pow(value * 2, 3) / 2 : Math.pow((1 - value) * 2, 3) / 2
+
+  const backTopFunc = () => {
+    const beginTime = Date.now()
+    const beginValue = document.documentElement.scrollTop
+    const rAF = window.requestAnimationFrame || ((func) => setTimeout(func, 16))
+    const frameFunc = () => {
+      // 通过调用时间和第一次触发时间的差值作为滚动的比例的参数
+      const progress = (Date.now() - beginTime) / 500
+      if (progress < 1) {
+        document.documentElement.scrollTop = beginValue * getScrollRatio(progress)
+        rAF(frameFunc)
+      } else {
+        document.documentElement.scrollTop = 0
+      }
+    }
+    rAF(frameFunc)
+  }
+  backTopFunc()
+}
+
 export {
   // 生成水印
   watermark,
@@ -227,5 +256,7 @@ export {
   // 函数防抖
   debounce,
   // 函数节流
-  throttle
+  throttle,
+  // 回到页面顶部
+  goBackTop
 }
