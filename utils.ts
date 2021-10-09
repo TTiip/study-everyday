@@ -96,7 +96,6 @@ const watermark = (element: Element, config: { [props: string]: any }) => {
   const WatermarkItem = element.querySelectorAll('.watermark-item')
 
   ;[].slice.call(WatermarkItem).map(item => {
-    console.log(item, 'item')
     item.parentNode.removeChild(item)
   })
   // 插入文档碎片
