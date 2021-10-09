@@ -92,6 +92,13 @@ const watermark = (element: Element, config: { [props: string]: any }) => {
     y = y + _config.height + _config.space_y
     // 超出文本底部坐标停止插入
   } while (total_height + position.y > y + _config.height)
+  // 先删除文档碎片防止水印重复。
+  const WatermarkItem = element.querySelectorAll('.watermark-item')
+
+  ;[].slice.call(WatermarkItem).map(item => {
+    console.log(item, 'item')
+    item.parentNode.removeChild(item)
+  })
   // 插入文档碎片
   element.append(mark)
 }
