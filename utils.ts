@@ -1,4 +1,4 @@
-
+import CryptoJS from 'crypto-js'
 
 /**
  * @desc 生成水印
@@ -250,6 +250,22 @@ const goBackTop = () => {
   backTopFunc()
 }
 
+// 加密
+const encrypt = word => {
+  let key = CryptoJS.enc.Utf8.parse('09476d7cfdb374bf90054805bef070d4')
+  let srcs = CryptoJS.enc.Utf8.parse(word)
+  let encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 })
+  return encrypted.toString()
+}
+
+// 解密
+const decrypt = word => {
+  let key = CryptoJS.enc.Utf8.parse('09476d7cfdb374bf90054805bef070d4')
+  let decrypt = CryptoJS.AES.decrypt(word, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 })
+  return CryptoJS.enc.Utf8.stringify(decrypt).toString()
+}
+
+
 export {
   // 生成水印
   watermark,
@@ -264,5 +280,9 @@ export {
   // 函数节流
   throttle,
   // 回到页面顶部
-  goBackTop
+  goBackTop,
+  // 加密
+  encrypt,
+  // 解密
+  decrypt
 }
