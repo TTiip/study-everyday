@@ -265,6 +265,24 @@ const decrypt = word => {
   return CryptoJS.enc.Utf8.stringify(decrypt).toString()
 }
 
+const url = 'https://hrassistantwx-hrsdc.ihr.tencent-cloud.com/hrweb/procotal?aa=bb&cc=dd&unionid=zldBa_BRqZF9ACUdNl9z-QFBzWcXinfVMS4p2Fw3mj4&url=https%3A%2F%2Fcertschool-hrsdc.ihr.tencent-cloud.com%2Fcs-learning-mob%2FcourseDetails%3Fcaagw_t%3D1642140223%26content_id%3D29'
+
+const urlParse = (url: string) => {
+  let obj = {}
+  let reg = /[^?&]+=[^?&]+/g
+  let arr = url.match(reg)
+  if (arr) {
+    arr.forEach(item => {
+      console.log(item, '1111')
+      let tempArr = item.split('=')
+      let key = decodeURIComponent(tempArr[0])
+      let val = decodeURIComponent(tempArr[1])
+      obj[key] = val
+    })
+  }
+  return obj
+}
+
 
 export {
   // 生成水印
@@ -284,6 +302,8 @@ export {
   // 加密
   encrypt,
   // 解密
-  decrypt
+  decrypt,
+  // url 中的参数 转换成 对象。 ps：对象转url参数有一个api：new URLSearchParams(object).toString()
+  urlParse
 }
 
