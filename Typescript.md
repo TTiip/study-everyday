@@ -63,17 +63,13 @@ class Test {
 
 ## 访问器的装饰器
 ```
-// 普通方法：
+
 // target --> 类的 prototype
-// key --> 装饰的的方法名
+// key --> 装饰的的 访问器 名
 // descriptor --> 类似于 Object.definedProperty 的作用
+// set get 不能使用同名的 装饰器！！！
 
-// 静态方法：
-// target --> 类的构造函数
-// key --> 装饰的的方法名
-// descriptor --> 类似于 Object.definedProperty 的作用
-
-function getNameDecorator(target: any, key: string, descriptor: PropertyDescriptor) {
+function setValueDecorator(target: any, key: string, descriptor: PropertyDescriptor) {
 	console.log('target', target)
 	console.log('key', key)
 	console.log('descriptor', descriptor)
@@ -83,10 +79,21 @@ function getNameDecorator(target: any, key: string, descriptor: PropertyDescript
 class Test {
 	constructor (public name: string) {}
 
-	@getNameDecorator
-	getName () {
-		console.log(this.name)
+	get value () {
+		return this.name
+	}
+
+	@setValueDecorator
+	set value (value) {
+		this.name = value
 	}
 }
+
+const test = new Test('dell')
+
+test.name = '12212'
+
+console.log(test.name)
+
 
 ```
