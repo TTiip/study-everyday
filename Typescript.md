@@ -37,12 +37,12 @@ test.getName()
 ```
 // 普通方法：
 // target --> 类的 prototype
-// key --> 装饰的的方法名
+// key --> 装饰的 方法 名
 // descriptor --> 类似于 Object.definedProperty 的作用
 
 // 静态方法：
 // target --> 类的构造函数
-// key --> 装饰的的方法名
+// key --> 装饰的 方法 名
 // descriptor --> 类似于 Object.definedProperty 的作用
 
 function getNameDecorator(target: any, key: string, descriptor: PropertyDescriptor) {
@@ -65,7 +65,7 @@ class Test {
 ```
 
 // target --> 类的 prototype
-// key --> 装饰的的 访问器 名
+// key --> 装饰的 访问器 名
 // descriptor --> 类似于 Object.definedProperty 的作用
 // set get 不能使用同名的 装饰器！！！
 
@@ -102,7 +102,7 @@ console.log(test.name)
 
 ```
 // target --> 类的 prototype
-// key --> 装饰的的 属性 名
+// key --> 装饰的 属性 名
 
 // target[key] = 'xxxx' 修改的并不是实例上的 name，而是原型上的 name
 function nameDecorator(target: any, key: string) {
