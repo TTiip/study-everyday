@@ -32,3 +32,31 @@ test.getName()
 // 先收集后调用，所以输出为 tesetDecorator2 -> tesetDecorator1 -> test
 // 执行顺序为 从下到上 从右到左
 ```
+
+## 方法的装饰器
+```
+// 普通方法：
+// target --> 类的 prototype
+// key --> 装饰的的方法名
+// descriptor --> 类似于 Object.definedProperty 的作用
+
+// 静态方法：
+// target --> 类的构造函数
+// key --> 装饰的的方法名
+// descriptor --> 类似于 Object.definedProperty 的作用
+
+function getNameDecorator(target: any, key: string, descriptor: PropertyDescriptor) {
+	console.log('target', target)
+}
+
+
+class Test {
+	constructor (public name: string) {}
+
+	@getNameDecorator
+	getName () {
+		console.log(this.name)
+	}
+}
+
+```
