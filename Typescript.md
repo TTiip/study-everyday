@@ -97,3 +97,31 @@ console.log(test.name)
 
 
 ```
+
+## 属性的装饰器
+
+```
+// target --> 类的 prototype
+// key --> 装饰的的 属性 名
+
+// target[key] = 'xxxx' 修改的并不是实例上的 name，而是原型上的 name
+function nameDecorator(target: any, key: string) {
+	console.log('target', target)
+	console.log('key', key)
+	target[key] = '112233'
+}
+
+
+class Test {
+	@nameDecorator
+	name: string = ''
+	constructor (name: string) {
+		this.name = name
+	}
+}
+
+const test: any = new Test('dell')
+console.log(test.name) // dell
+console.log(test.__proto__.name) // 112233
+
+```
