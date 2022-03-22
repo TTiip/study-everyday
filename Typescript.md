@@ -60,3 +60,33 @@ class Test {
 }
 
 ```
+
+## 访问器的装饰器
+```
+// 普通方法：
+// target --> 类的 prototype
+// key --> 装饰的的方法名
+// descriptor --> 类似于 Object.definedProperty 的作用
+
+// 静态方法：
+// target --> 类的构造函数
+// key --> 装饰的的方法名
+// descriptor --> 类似于 Object.definedProperty 的作用
+
+function getNameDecorator(target: any, key: string, descriptor: PropertyDescriptor) {
+	console.log('target', target)
+	console.log('key', key)
+	console.log('descriptor', descriptor)
+}
+
+
+class Test {
+	constructor (public name: string) {}
+
+	@getNameDecorator
+	getName () {
+		console.log(this.name)
+	}
+}
+
+```
