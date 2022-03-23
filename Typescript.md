@@ -153,3 +153,55 @@ test.getInfo('dell', 18)
 
 
 ```
+
+## reflect-metadata
+
+### 给对象添加元属性。
+```
+import 'reflect-metadata'
+
+const test = {
+	name: 'test'
+}
+
+Reflect.defineMetadata('ddd', '1122334455', test)
+
+const data = Reflect.getMetadata('ddd', test)
+
+console.log('data', data) // 1122334455
+
+```
+## 给类添加 元属性
+```
+
+@Reflect.metadata('aaaaa', 'dddddd')
+class Test {
+	name: string = '112233'
+}
+
+console.log(Reflect.getMetadata('aaaaa', Test)) // dddddd
+
+```
+
+## 给类的属性 或者 方法 元属性
+```
+class Test {
+	@Reflect.metadata('aaaaa', 'nameString')
+	name: string = '112233'
+
+	@Reflect.metadata('bbbbb', 'fnSring')
+	getName () {
+
+	}
+
+	@Reflect.metadata('ccccc', 'getString')
+	get value () {
+		return ''
+	}
+}
+
+console.log(Reflect.getMetadata('aaaaa', Test.prototype, 'name')) // nameString
+console.log(Reflect.getMetadata('bbbbb', Test.prototype, 'getName')) // fnSring
+console.log(Reflect.getMetadata('ccccc', Test.prototype, 'value')) // getString
+
+```
