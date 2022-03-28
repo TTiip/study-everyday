@@ -3,6 +3,7 @@
 - > 修饰一些东西，本身是一个函数，在需要装饰的东西前面使用（@xxx）
 - > 使用这个装饰器 必须在 tsconfig.json 中 开启 experimentalDecorators 选项！！
 - > 装饰器在 装饰的东西 定义的时候就会执行。
+- > 类上的方法的装饰器是 优先 于类的装饰器执行的。
 
 
 ## 类的装饰器
@@ -151,5 +152,61 @@ class Test {
 const test: any = new Test()
 test.getInfo('dell', 18)
 
+
+```
+
+## reflect-metadata
+
+### 给对象添加元属性。
+```
+import 'reflect-metadata'
+
+const test = {
+	name: 'test',
+	age: 18
+}
+
+Reflect.defineMetadata('aaa', 'nameString', test)
+Reflect.defineMetadata('bbb', 'ageString', test, 'age')
+
+console.log(Reflect.getMetadata('aaa', test)) // nameString
+console.log(Reflect.getMetadata('bbb', test, 'age')) // ageString
+
+```
+### 给类添加 元属性
+```
+import 'reflect-metadata'
+
+@Reflect.metadata('aaaaa', 'dddddd')
+class Test {
+	name: string = '112233'
+}
+
+console.log(Reflect.getMetadata('aaaaa', Test)) // dddddd
+
+```
+
+### 给类的属性 或者 方法 元属性
+```
+import 'reflect-metadata'
+
+class Test {
+	@Reflect.metadata('aaaaa', 'nameString')
+	name: string = '112233'
+
+	@Reflect.metadata('bbbbb', 'fnSring')
+	getName () {
+
+	}
+
+	@Reflect.metadata('ccccc', 'getString')
+	get value () {
+		return ''
+	}
+}
+
+console.log(Reflect.getMetadata('aaaaa', Test.prototype, 'name')) // nameString
+console.log(Reflect.getMetadata('bbbbb', Test.prototype, 'getName')) // fnSring
+console.log(Reflect.getMetadata('ccccc', Test.prototype, 'value')) // getString
 
 ```
