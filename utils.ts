@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js'
+// import CryptoJS from 'crypto-js'
 
 /**
  * @desc 生成水印
