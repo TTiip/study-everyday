@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		.waterfall {
+			display: grid;
+			/*  2列，而且列宽都为 50%  */
+			grid-template-columns: repeat(2, 50%);
+			/* 列间距 */
+			grid-row-gap: 10px;
+			/* 行间距 */
+			grid-column-gap: 10px;
+			/* 所有行的默认 尺寸（高度） */
+			/* grid-auto-rows: 100px; */
+		}
+		.waterfall .item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			background: #999;
+			color: #ddd;
+		}
+		.waterfall .item:nth-of-type(3n+1) {
+			grid-row: auto / span 1;
+		}
+		.waterfall .item:nth-of-type(3n+2) {
+			grid-row: auto / span 2;
+		}
+		.waterfall .item:nth-of-type(3n+3) {
+			grid-row: auto / span 3;
+		}
+
+		.waterfall .item .item-contain {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.waterfall .item .item1 {
+			height: 180px;
+		}
+
+		.waterfall .item .item2 {
+			height: 256px;
+		}
+
+		.waterfall .item .item3 {
+			height: 660px;
+		}
+
+		.waterfall .item .item4 {
+			height: 190px;
+		}
+
+		.waterfall .item .item5 {
+			height: 290px;
+		}
+
+		.waterfall .item .item6 {
+			height: 100px;
+		}
+
+		.waterfall .item .item7 {
+			height: 300px;
+		}
+
+		.waterfall .item .item8 {
+			height: 120px;
+		}
+
+		.waterfall .item .item9 {
+			height: 90px;
+		}
+
+		.waterfall .item .item10 {
+			height: 122px;
+		}
+
+		.waterfall .item .item11 {
+			height: 378px;
+		}
+
+		.waterfall .item .item12 {
+			height: 1620px;
+		}
+
+		.waterfall .item .item13 {
+			height: 490px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="waterfall">
+			<div class="item">
+				<div class="item-contain item1">1</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item2">2</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item3">3</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item4">4</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item5">5</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item6">6</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item7">7</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item8">8</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item9">9</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item10">10</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item11">11</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item12">12</div>
+			</div>
+			<div class="item">
+				<div class="item-contain item13">13</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
