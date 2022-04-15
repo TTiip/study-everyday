@@ -79,7 +79,7 @@ apply和call都是为了改变某个函数运行时的上下文而存在的（�
 >* 当我们使用一个函数需要改变this指向的时候才会用到call,apply,bind
 >* 如果你要传递的参数不多，则可以使用fn.call(thisObj, arg1, arg2 ...)
 >* 如果你要传递的参数很多，则可以用数组将参数整理好调用fn.apply(thisObj, [arg1, arg2 ...])
->* 如果你想生成一个新的函数长期绑定某个函数给某个对象使用，则可以使用
+>* 如果你想生成一个新的函数长期绑定某个函数给某个对象使用，则可以使用 fn.bind
 
 # 简单实现
 
@@ -167,4 +167,58 @@ const objTest = {
  */
 testObj.apply(objTest) // true
 testObj.call(objTest) // true
+```
+
+## 特别简洁版本
+```
+Function.prototype.myCall = function (obj) {
+  obj.fn = this
+  let args = [...arguments].splice(1)
+  let result = obj.fn(...args)
+  delete obj.fn
+  return result
+}
+
+Function.prototype.myApply = function (obj) {
+  obj.fn = this
+  let args = arguments[1]
+  let result
+  if (args) {
+    result = obj.fn(...args)
+  } else {
+    result = obj.fn()
+  }
+
+  delete obj.fn
+
+  return result
+}
+
+Function.prototype.myBind = function (obj) {
+  let context = obj || window
+  let _this = this
+  let _args = [...arguments].splice(1)
+
+  return function () {
+    let args = arguments
+    // 产生副作用
+    // return obj.fn(..._args, ...args)
+    return _this.apply(context, [..._args, ...args])
+  }
+}
+
+function myFun (argumentA, argumentB) {
+  console.log(this.value)
+  console.log(argumentA)
+  console.log(argumentB)
+  return this.value
+}
+
+let obj = {
+  value: 'ziyi2'
+}
+console.log(myFun.myCall(obj, 11, 22))
+console.log(myFun.myApply(obj, [11, 22]))
+console.log(myFun.myBind(obj, 33)(11, 22))
+
 ```
