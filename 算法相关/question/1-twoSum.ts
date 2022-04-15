@@ -11,6 +11,7 @@ const twoSum = (nums, target) => {
 			map.set(nums[i], i)
 		}
 	}
+	// 没有找到相同的数字
 	return []
 }
 
