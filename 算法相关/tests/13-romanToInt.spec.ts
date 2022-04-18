@@ -1,6 +1,6 @@
 import { romanToInt } from '../question/13-romanToInt'
 
-describe('9-romanToInt', () => {
+describe('13-romanToInt', () => {
 	test('result1', () => {
 		const val = 'III'
 		const res = romanToInt(val)
