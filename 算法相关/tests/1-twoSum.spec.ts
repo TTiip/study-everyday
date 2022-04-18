@@ -1,6 +1,6 @@
 import { twoSum } from '../question/1-twoSum'
 
-describe('509-fib', () => {
+describe('1-twoSum', () => {
 	test('result1', () => {
 		const nums = [2,7,11,15]
 		const target = 9
