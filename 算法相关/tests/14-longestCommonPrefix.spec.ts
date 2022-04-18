@@ -1,6 +1,6 @@
 import { longestCommonPrefix } from '../question/14-longestCommonPrefix'
 
-describe('14-longestCommonPrefix', () => {
+describe('longestCommonPrefix', () => {
 	test('result1', () => {
 		const strs = ["flower","flow","flight"]
 		const res = longestCommonPrefix(strs)
