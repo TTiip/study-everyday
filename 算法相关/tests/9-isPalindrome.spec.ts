@@ -1,6 +1,6 @@
 import { isPalindrome } from '../question/9-isPalindrome'
 
-describe('9-isPalindrome', () => {
+describe('isPalindrome', () => {
 	test('result1', () => {
 		const val = 11211
 		const res = isPalindrome(val)
