@@ -1,6 +1,6 @@
 import { fib } from '../question/509-fib'
 
-describe('509-fib', () => {
+describe('fib', () => {
 	test('result1', () => {
 		const fib0 = fib(0)
 		const fib1 = fib(1)
