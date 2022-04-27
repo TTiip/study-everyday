@@ -1,6 +1,5 @@
 import axios, { Method, AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosInterceptorManager, AxiosResponse } from 'axios'
 import apiList, { apiKeyType, apiKeyDataType } from '@/api'
-import useMessage from '@/hooks/useMessage'
 import store from '@/store'
 
 type ResultDataType = apiKeyDataType[apiKeyType]
