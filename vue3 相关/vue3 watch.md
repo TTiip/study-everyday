@@ -97,3 +97,6 @@ watch(() => comVal.value, () => {}) 或者 watch(comVal, () => {})
 3. computed监听(变量名称)
 
 ```
+
+## watchEffect
+可以简单的理解为除了渲染dom的所有操作都可以放到watchEffect中执行。
