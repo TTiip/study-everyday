@@ -26,7 +26,7 @@ type ReadonlyUser = {
 type MyPartial<T> = {
 	readonly [P in keyof T]?: T[P]
 }
-// 使用 + 和 - 来添加或者删除映射类型的健
+// 使用 + 和 - 来添加或者删除映射类型的健 前面不写符号默认设置为添加
 // { [P in K] : T }
 // { [P in K] ?: T }
 // { [P in K] -?: T }
