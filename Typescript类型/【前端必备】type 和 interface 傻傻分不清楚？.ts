@@ -1,8 +1,8 @@
-// type & interface
+// type 和 interface
 
 // 相同点!!!
 
-// 1. 类型别名和接口都可以用来面熟对象或者函数
+// 1. 类型别名和接口都可以用来定义对象或者函数
 // type Point = { x: number, y: number }
 // type SetPoint = (x: number, y: number) => void
 
