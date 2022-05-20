@@ -72,7 +72,7 @@ type Getters<T> = {
 }
 
 // Capitalize<string & K>
-// 此处 K 可能是 symbol 类型，所以需要加上交叉类型 过滤非string类型的健
+// 此处 K 可能是 symbol 类型，所以需要加上交叉类型 避免报错
 type Person = {
 	name: string
 	age: number
