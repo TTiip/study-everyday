@@ -17,7 +17,6 @@ type PickUser = Pick<User2, 'id' | 'createdAt' | 'updatedAt'>
 // 可以简单的理解 Pick 和 Omit 的结果是互补的。
 
 
-
 // 实际应用============
 // 去掉原有 type 属性中的 createdAt 和 updatedAt 同时将其转换为 string 类型
 type UserUI =  Omit<User2, 'createdAt' | 'updatedAt'> & { createdAt: string, updatedAt: string }
