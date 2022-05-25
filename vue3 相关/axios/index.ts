@@ -9,7 +9,7 @@ type ResultDataType = apiKeyDataType[apiKeyType]
   声明的是这种数据类型
 */
 
-interface NewAxiosInstance extends AxiosInstance {
+type NewAxiosInstance = AxiosInstance & {
   /*
   设置泛型T，默认为any，将请求后的结果返回变成AxiosPromise<T>
   */
@@ -21,7 +21,7 @@ interface NewAxiosInstance extends AxiosInstance {
 }
 
 // 定义接口
-interface PendingType {
+type PendingType = {
   url?: string
   method?: Method
   params: any
