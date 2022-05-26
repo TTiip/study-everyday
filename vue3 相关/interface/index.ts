@@ -20,7 +20,7 @@
 //   }
 // }
 
-type Common = {
+interface Common {
   code?: number
   hasMore?: boolean
 }

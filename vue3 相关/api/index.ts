@@ -1,14 +1,14 @@
-import {
+import type {
   GetLyric
-} from '@/interface'
+} from '~/interface'
 
 const apiList = {
   // 获取歌曲的歌词
   getLyric: '/lyric'
 }
 
-export type apiKeyDataType = {
-  getLyric: Promise<GetLyric>
+export interface apiKeyDataType {
+  getLyric: GetLyric
 }
 
 export type apiKeyType = keyof typeof apiList

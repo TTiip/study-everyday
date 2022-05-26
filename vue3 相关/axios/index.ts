@@ -1,5 +1,7 @@
-import axios, { Method, AxiosInstance, AxiosRequestConfig, AxiosPromise, AxiosInterceptorManager, AxiosResponse } from 'axios'
-import apiList, { apiKeyType, apiKeyDataType } from '@/api'
+import type { AxiosInstance, AxiosInterceptorManager, AxiosPromise } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios'
+import type { apiKeyDataType, apiKeyType } from '~/api'
+import apiList from '~/api'
 
 type ResultDataType = apiKeyDataType[apiKeyType]
 /*
@@ -21,7 +23,7 @@ type NewAxiosInstance = AxiosInstance & {
 }
 
 // 定义接口
-type PendingType = {
+interface PendingType {
   url?: string
   method?: Method
   params: any
@@ -50,10 +52,10 @@ const removePending = (config: AxiosRequestConfig) => {
     const list: PendingType = pending[key]
     // 当前请求在数组中存在时执行函数体
     if (
-      list.url === config.url &&
-      list.method === config.method &&
-      JSON.stringify(list.params) === JSON.stringify(config.params) &&
-      JSON.stringify(list.data) === JSON.stringify(config.data)
+      list.url === config.url
+      && list.method === config.method
+      && JSON.stringify(list.params) === JSON.stringify(config.params)
+      && JSON.stringify(list.data) === JSON.stringify(config.data)
     ) {
       // 执行取消操作
       list.cancel('操作太频繁，请稍后再试')
@@ -64,88 +66,83 @@ const removePending = (config: AxiosRequestConfig) => {
 }
 
 // 添加请求拦截器
-instance.interceptors.request.use(
-  request => {
-    // 如果不存在showLoading则默认设置为true
-    if (!Reflect.has(request.headers, 'showLoading')) {
-      // request.headers.showLoading = true
-      // 先设置为false，之后在改。
-      request.headers.showLoading = false
-    }
-
-    removePending(request)
-    if (request.method && HAS_QS_METHOD.includes(request.method)) {
-      // 这里只处理post请求，根据自己情况修改
-      // request.data.time = +new Date()
-    } else if (request.method && NOT_QS_METHOD.includes(request.method)) {
-      // 如果是get请求则添加时间戳，避免缓存
-      // request.params.time = +new Date()
-    }
-    request.cancelToken = new CancelToken((c) => {
-      pending.push({ url: request.url, method: request.method, params: request.params, data: request.data, cancel: c })
-    })
-    return request
-  },
-  error => {
-    return Promise.reject(error)
+instance.interceptors.request.use(request => {
+  // 如果不存在showLoading则默认设置为true
+  if (!Reflect.has(request.headers!, 'showLoading')) {
+    // request.headers.showLoading = true
+    // 先设置为false，之后在改。
+    request.headers!.showLoading = false
   }
-)
+
+  removePending(request)
+  if (request.method && HAS_QS_METHOD.includes(request.method as Method)) {
+    // 这里只处理post请求，根据自己情况修改
+    // request.data.time = +new Date()
+  } else if (request.method && NOT_QS_METHOD.includes(request.method as Method)) {
+    // 如果是get请求则添加时间戳，避免缓存
+    // request.params.time = +new Date()
+  }
+  request.cancelToken = new CancelToken(c => {
+    pending.push({ url: request.url, method: request.method as Method, params: request.params, data: request.data, cancel: c })
+  })
+  return request
+},
+error => {
+  return Promise.reject(error)
+})
 
 // 添加响应拦截器
-instance.interceptors.response.use(
-  response => {
+instance.interceptors.response.use(response => {
+  removePending(response.config)
 
-    removePending(response.config)
-
-    const code = response.data.code
-    if (code !== 200) {
-      console.log('error', response.data)
-    }
-    return response.data
-  },
-  error => {
-    const response = error.response
-
-    switch (response.data.code) {
-      case 301:
-        // 为登录状态，显示登录dialog弹窗提示用户登录。
-        break
-      case 401:
-        // 401提示
-        break
-      default:
-        break
-    }
-
-    // 超时重新请求
-    const config = error.config
-    // 全局的请求次数,请求的间隙
-    const [RETRY_COUNT, RETRY_DELAY] = [0, 1000]
-
-    if (config && RETRY_COUNT) {
-      // 设置用于跟踪重试计数的变量
-      config.__retryCount = config.__retryCount || 0
-      // 检查是否已经把重试的总数用完
-      if (config.__retryCount >= RETRY_COUNT) {
-        return Promise.reject(response || { message: error.message })
-      }
-      // 增加重试计数
-      config.__retryCount++
-      // 创造新的Promise来处理指数后退
-      const backoff = new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(true)
-        }, RETRY_DELAY || 1)
-      })
-      // instance重试请求的Promise
-      return backoff.then(() => {
-        return instance(config)
-      })
-    }
-
-    return Promise.reject(response || { message: error.message })
+  const code = response.data.code
+  if (code !== 200) {
+    console.log('error', response.data)
   }
-)
+  return response.data
+},
+error => {
+  const response = error.response
+
+  switch (response.data.code) {
+    case 301:
+      // 为登录状态，显示登录dialog弹窗提示用户登录。
+      break
+    case 401:
+      // 401提示
+      break
+    default:
+      break
+  }
+
+  // 超时重新请求
+  const config = error.config
+  // 全局的请求次数,请求的间隙
+  const [RETRY_COUNT, RETRY_DELAY] = [0, 1000]
+
+  if (config && RETRY_COUNT) {
+    // 设置用于跟踪重试计数的变量
+    config.__retryCount = config.__retryCount || 0
+    // 检查是否已经把重试的总数用完
+    if (config.__retryCount >= RETRY_COUNT) {
+      return Promise.reject(response || { message: error.message })
+    }
+    // 增加重试计数
+    config.__retryCount++
+    // 创造新的Promise来处理指数后退
+    const backoff = new Promise(resolve => {
+      setTimeout(() => {
+        resolve(true)
+      }, RETRY_DELAY || 1)
+    })
+    // instance重试请求的Promise
+    return backoff.then(() => {
+      return instance(config)
+    })
+  }
+
+  return Promise.reject(response || { message: error.message })
+})
 
 export {
   AxiosRequestConfig,
@@ -172,7 +169,7 @@ const httpFunc = <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }
       method: options.method || 'GET',
       responseType: options.responseType || 'json',
       headers: options.headers || {}
-    }).then(res => {
+    }).then((res: any) => {
       resolve(res)
     }).catch(error => {
       // useMessage('error', error)
