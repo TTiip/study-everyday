@@ -26,7 +26,7 @@ type b7 = IsNever<any[]>
 type b8 = IsNever<never>
 
 // 判断一个类型是不是 unknown 类型。
-type isUnknown<T> =
+type IsUnknown<T> =
 	IsNever<T> extends false
     ? T extends unknown
 			? unknown extends T
@@ -37,12 +37,12 @@ type isUnknown<T> =
 			: false
     : false
 
-type c1 = isUnknown<any>
-type c2 = isUnknown<number>
-type c3 = isUnknown<string>
-type c4 = isUnknown<object>
-type c5 = isUnknown<Function>
-type c6 = isUnknown<unknown>
-type c7 = isUnknown<any[]>
-type c8 = isUnknown<never>
+type c1 = IsUnknown<any>
+type c2 = IsUnknown<number>
+type c3 = IsUnknown<string>
+type c4 = IsUnknown<object>
+type c5 = IsUnknown<Function>
+type c6 = IsUnknown<unknown>
+type c7 = IsUnknown<any[]>
+type c8 = IsUnknown<never>
 
