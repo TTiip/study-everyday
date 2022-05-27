@@ -88,18 +88,18 @@ type T03 = unknown & string // string
 type T04 = unknown & string[] // string[]
 type T05 = unknown & any[] // any[]
 type T06 = unknown & Function // Function
-type T07 = unknown & object // Object
+type T07 = unknown & object // object
 // 这里特别注意！！！
 type T08 = unknown & any // any
 
 // 交叉类型部分
-type T10 = unknown | null // null
-type T11 = unknown | undefined // undefined
-type T12 = unknown | null | undefined // never
-type T13 = unknown | string // string
-type T14 = unknown | string[] // string[]
-type T15 = unknown | any[] // any[]
-type T16 = unknown | Function // Function
-type T17 = unknown | object // Object
+type T10 = unknown | null // unknown
+type T11 = unknown | undefined // unknown
+type T12 = unknown | null | undefined // unknown
+type T13 = unknown | string // unknown
+type T14 = unknown | string[] // unknown
+type T15 = unknown | any[] // unknown
+type T16 = unknown | Function // unknown
+type T17 = unknown | object // unknown
 // 这里特别注意！！！
 type T18 = unknown | any // any
