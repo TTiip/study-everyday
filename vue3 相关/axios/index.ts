@@ -13,7 +13,7 @@ type ResultDataType = apiKeyDataType[apiKeyType]
 
 type NewAxiosInstance = AxiosInstance & {
   /*
-  设置泛型T，默认为any，将请求后的结果返回变成AxiosPromise<T>
+    设置泛型T，默认为any，将请求后的结果返回变成AxiosPromise<T>
   */
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
   interceptors: {
@@ -151,18 +151,15 @@ export {
 }
 
 /*
-限制泛型T必须是接口列表（apiKeyType）中的key
-限制obj中的url必须是接口列表中key的某一格
+  限制泛型T必须是接口列表（apiKeyType）中的key
+  限制obj中的url必须是接口列表中key的某一个
 */
 const httpFunc = <T extends apiKeyType>(options: AxiosRequestConfig & { url: T }) => {
   /*
-  限制最终的返回数据类型
+    限制最终的返回数据类型, 通过 Promise 传入范型 限制 resolve 返回值的类型
   */
   return new Promise<apiKeyDataType[T]>((resolve, reject) => {
-    /*
-    传递泛型给http中的拦截器
-    */
-    instance<apiKeyDataType[T]>({
+    instance({
       url: apiList[options.url],
       params: options.params || {},
       data: options.data || {},
