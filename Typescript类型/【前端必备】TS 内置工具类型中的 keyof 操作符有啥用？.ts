@@ -74,3 +74,26 @@ enum HttpMethod {
 }
 
 type HttpMethodKeys = keyof typeof HttpMethod // "GET" | "POST" | "PUT" | "DELETE"
+
+// 此处补充一点 typeof 用法
+
+const userTest = {
+	id: 12,
+	name: 'test',
+	address: 'n'
+}
+
+type userTypeOf = typeof userTest
+// 转化以后变成
+
+/**
+	type xxxx = {
+		id: number,
+		name: string,
+		address: string
+	}
+ */
+
+// keyof 不能直接使用 作用于 定义的值
+// 所以此处需要先将定义的对象转换成 类型
+// 之后再使用 keyof 获取 健
