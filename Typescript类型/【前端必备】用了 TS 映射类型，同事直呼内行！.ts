@@ -22,12 +22,12 @@ type ReadonlyUser = {
 }
 
 // 在实际工作中我们时常需要将 User 映射成 UserPartial 类型 或者 ReadonlyUser
-// 该类型中的所有的健 都是可选健 或者 只读健
+// 该类型中的所有的键 都是可选键 或者 只读键
 
 type MyPartial<T> = {
 	readonly [P in keyof T]?: T[P]
 }
-// 使用 + 和 - 来添加或者删除映射类型的健 前面不写符号默认设置为添加
+// 使用 + 和 - 来添加或者删除映射类型的键 前面不写符号默认设置为添加
 // { [P in K] : T }
 // { [P in K] ?: T }
 // { [P in K] -?: T }
@@ -93,8 +93,13 @@ type RemoveKindField<T> = {
 	[K in keyof T as MyExclude<K, 'kind'>]: T[K]
 }
 
-// 健重新映射是 as 子句 返回 never 类型，该健将会被删除
-// T extends U 可以简单的理解为 T 里面 包不包含 U 的健
+// 详情参考: https://cloud.tencent.com/developer/article/1884330
+
+// 返回 never 类型，该键将会被删除
+// T extends U 可以简单的理解为 T 可不可以分配给 U, 而不是说类型 T 是类型 U 的子集。
+// 简单理解 T 的范围比 U 的范围要大。
+
+// 如果实在转不过弯来，就直接简单粗暴的理解为 T 包不包含 U，如果包含，就直接返回 never。
 type MyExclude<T, U> = T extends U ? never : T
 type aa = MyExclude<keyof Circle, 'kind'>
 
@@ -104,3 +109,18 @@ type Circle = {
 }
 
 type RemoveRes = RemoveKindField<Circle>
+
+// 加餐！！！！！
+type Human = {
+	name: string
+	occupation: string
+}
+type Duck = {
+	name: string
+}
+
+type Bool1 = Duck extends Human ? 'yes' : 'no' // 'no'
+type Bool2 = Human extends Duck ? 'yes' : 'no' // 'yes'
+
+// 此处可以简单的理解成 “多属性的” 可以分配给 “少属性的”
+// 少的 不能 给多的 (因为少的不包含多的中的一些属性嘛。)
