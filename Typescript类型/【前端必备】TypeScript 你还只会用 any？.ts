@@ -59,6 +59,7 @@ let va8: Function = v1
 // 还有一点！！！！！
 type T40 = keyof any // string | number | symbol
 type T41 = keyof unknown // never
+type T42 = keyof object // never
 
 type T50<T> = {
 	[K in keyof T]: number
@@ -80,7 +81,7 @@ type T52 = T50<unknown> // {}
 
 // 两种类型与任何类型的变量 交叉、联合类型的结果
 
-// 联合类型部分
+// 交叉类型部分
 type T00 = unknown & null // null
 type T01 = unknown & undefined // undefined
 type T02 = unknown & null & undefined // never
@@ -89,10 +90,11 @@ type T04 = unknown & string[] // string[]
 type T05 = unknown & any[] // any[]
 type T06 = unknown & Function // Function
 type T07 = unknown & object // object
+type T08 = unknown & unknown // unknown
 // 这里特别注意！！！
-type T08 = unknown & any // any
+type T09 = unknown & any // any
 
-// 交叉类型部分
+// 联合类型部分
 type T10 = unknown | null // unknown
 type T11 = unknown | undefined // unknown
 type T12 = unknown | null | undefined // unknown
@@ -101,5 +103,6 @@ type T14 = unknown | string[] // unknown
 type T15 = unknown | any[] // unknown
 type T16 = unknown | Function // unknown
 type T17 = unknown | object // unknown
+type T18 = unknown | unknown // unknown
 // 这里特别注意！！！
-type T18 = unknown | any // any
+type T19 = unknown | any // any
