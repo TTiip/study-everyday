@@ -1,4 +1,4 @@
-// javascript 中我们可以使用 Object.keys 来获取对象的 健，返回的是健组成的数组。
+// javascript 中我们可以使用 Object.keys 来获取对象的 键，返回的是键组成的数组。
 
 // const user = {
 // 	id: 666,
@@ -9,14 +9,14 @@
 
 // Typescript 中
 
-// 获取 type interface 等类型，获取类型的健 使用 keyof
+// 获取 type interface 等类型，获取类型的键 使用 keyof
 
 type KeyofType = {
 	id: number,
 	name: string
 }
 
-// 其返回类型是联合 “健” 组成的联合类型
+// 其返回类型是联合 “键” 组成的联合类型
 type keys = keyof KeyofType
 
 // 使用类似于对象取值的语法进行值得获取。
@@ -96,4 +96,4 @@ type userTypeOf = typeof userTest
 
 // keyof 不能直接使用 作用于 定义的值
 // 所以此处需要先将定义的对象转换成 类型
-// 之后再使用 keyof 获取 健
+// 之后再使用 keyof 获取 键
