@@ -2,7 +2,7 @@
 
 // 加餐！！！
 // 判断一个类型是不是 any 类型。
-type IsAny<T> = 0 extends (1 & T) ? true : false;
+type IsAny<T> = 0 extends (1 & T) ? true : false
 
 type a1 = IsAny<any>
 type a2 = IsAny<number>
@@ -14,7 +14,7 @@ type a7 = IsAny<any[]>
 type a8 = IsAny<never>
 
 // 判断一个类型是不是 never 类型。
-type IsNever<T> = [T] extends [never] ? true : false;
+type IsNever<T> = [T] extends [never] ? true : false
 
 type b1 = IsNever<any>
 type b2 = IsNever<number>
