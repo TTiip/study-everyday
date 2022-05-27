@@ -13,7 +13,7 @@ type a6 = IsAny<unknown>
 type a7 = IsAny<any[]>
 type a8 = IsAny<never>
 
-// 判断一个类型是不是 unknown 类型。
+// 判断一个类型是不是 never 类型。
 type IsNever<T> = [T] extends [never] ? true : false;
 
 type b1 = IsNever<any>
