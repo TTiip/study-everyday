@@ -1,3 +1,5 @@
+// 参考链接: https://deno.land/x/conditional_type_checks@1.0.5/mod.ts
+
 // 加餐！！！
 // 判断一个类型是不是 any 类型。
 type IsAny<T> = 0 extends (1 & T) ? true : false;
