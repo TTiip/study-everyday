@@ -1,7 +1,7 @@
 // 参考链接: https://deno.land/x/conditional_type_checks@1.0.5/mod.ts
 
 // 加餐！！！
-// 判断一个类型是不是 any 类型。
+// 1.判断一个类型是不是 any 类型。================================
 type IsAny<T> = 0 extends (1 & T) ? true : false
 
 type a1 = IsAny<any>
@@ -13,7 +13,7 @@ type a6 = IsAny<unknown>
 type a7 = IsAny<any[]>
 type a8 = IsAny<never>
 
-// 判断一个类型是不是 never 类型。
+// 2.判断一个类型是不是 never 类型。================================
 type IsNever<T> = [T] extends [never] ? true : false
 
 type b1 = IsNever<any>
@@ -25,7 +25,7 @@ type b6 = IsNever<unknown>
 type b7 = IsNever<any[]>
 type b8 = IsNever<never>
 
-// 判断一个类型是不是 unknown 类型。
+// 3.判断一个类型是不是 unknown 类型。================================
 type IsUnknown<T> =
 	IsNever<T> extends false
     ? T extends unknown
@@ -46,3 +46,76 @@ type c6 = IsUnknown<unknown>
 type c7 = IsUnknown<any[]>
 type c8 = IsUnknown<never>
 
+// 4.实现一个 类型转换，功能为 将类型中必填的指定值转化成非必填。================================
+type Usera = {
+	id: number
+	name: string
+	age: number
+}
+
+/*
+	转化成 如下
+	type U1 = {
+		id？: number | undefined
+		name: string
+		age: number
+	}
+*/
+
+type MyGetBykeysAA<T, K extends keyof T> = {
+	[P in K]?: T[P]
+}
+
+type MyGetBykeysA<T, K extends keyof T> = {
+	[P in K]: T[P]
+}
+
+type MyExcludeA<T, K> = T extends K ? never : T
+type MyPickA<T, K extends keyof T> = {
+	[P in K]: T[P]
+}
+
+type aaaa = MyGetBykeysA<Usera, 'id'>
+/*
+	type aaaa = {
+		id: number;
+	}
+*/
+type ffff = MyGetBykeysAA<Usera, 'id'>
+/*
+	type ffff = {
+		id?: number | undefined;
+	}
+*/
+type bbbb = MyExcludeA<keyof Usera, 'id'>
+/*
+	type bbbb = "name" | "age"
+*/
+type cccc = MyPickA<Usera, bbbb>
+/*
+	type cccc = {
+		name: string;
+		age: number;
+	}
+*/
+type gggg = MyGetBykeysA<Usera, bbbb>
+/*
+	type gggg = {
+		name: string;
+		age: number;
+	}
+*/
+type hhhh = MyGetBykeysA<Usera, bbbb> & MyGetBykeysAA<Usera, 'id'>
+/*
+	type hhhh = MyGetBykeysA<Usera, bbbb> & MyGetBykeysAA<Usera, "id">
+*/
+
+// 结果!!!
+type dddd = MyGetBykeysA<hhhh, keyof hhhh>
+/*
+	type dddd = {
+		id?: number | undefined;
+		name: string;
+		age: number;
+	}
+*/
