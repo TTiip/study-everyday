@@ -140,7 +140,7 @@ type Baz = Foo & Bar
 
 // 函数部分==================================
 // type F1 = (a:string, b: string) => void
-// type F2 = (a:number, b: number) => string
+// type F2 = (a:number, b: number) => void
 
 // const f: F1 & F2 = (a: string | number, b: string | number) => {}
 
@@ -151,10 +151,10 @@ type Baz = Foo & Bar
 // 函数类型的交叉运算 会使用函数重载的方式进行合并
 // 解决以上报错可以这么做:
 type F1 = (a:string, b: string) => void
-type F2 = (a:number, b: number) => string
+type F2 = (a:number, b: number) => void
 type F3 = (a: number, b: string) => void
 
-const f: F1 & F2 & F3 = (a: string | number, b: string | number) => ''
+const f: F1 & F2 & F3 = (a: string | number, b: string | number) => {}
 
 f(1, '2') // 正确
 
