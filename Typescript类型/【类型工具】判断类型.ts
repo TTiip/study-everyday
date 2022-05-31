@@ -56,7 +56,7 @@ type Usera = {
 /*
 	转化成 如下
 	type U1 = {
-		id？: number | undefined
+		id?: number | undefined
 		name: string
 		age: number
 	}
