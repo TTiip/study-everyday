@@ -105,6 +105,7 @@ type gggg = MyGetBykeysA<Usera, bbbb>
 		age: number;
 	}
 */
+
 type hhhh = MyGetBykeysA<Usera, bbbb> & MyGetBykeysAA<Usera, 'id'>
 /*
 	type hhhh = MyGetBykeysA<Usera, bbbb> & MyGetBykeysAA<Usera, "id">
