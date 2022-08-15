@@ -119,3 +119,10 @@ type dddd = MyGetBykeysA<hhhh, keyof hhhh>
 		age: number;
 	}
 */
+
+
+// 利用 数组生成对应的 联合类型 type
+// 此处的 as const 作用是固定数组 为指定的值
+const array = ['Boolean', 'String', 'Number', 'Date', 'Function', 'Object'] as const
+
+type unionType = typeof array[number]
