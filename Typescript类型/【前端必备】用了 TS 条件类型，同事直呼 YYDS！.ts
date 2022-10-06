@@ -49,6 +49,13 @@ type WrappedTuple0 = WrappedTuple<number | boolean> // "No"
 type WrappedTuple1 = WrappedArray<number | boolean> // "No"
 type WrappedTuple2 = WrappedPromise<number | boolean> // "No"
 
+type Wrappedsss<T> = [T] extends [boolean | string ] ? 'Yes' : 'No'
+type WrappedTuple3 = Wrappedsss<boolean | string> // "Yes"
+type WrappedTuple4 = Wrappedsss<boolean> // "Yes"
+type WrappedTuple5 = Wrappedsss<string> // "Yes"
+type WrappedTuple6 = Wrappedsss<number> // "No"
+type WrappedTuple7 = Wrappedsss<any[]> // "No"
+
 // 由以上结果可知，如果条件参数被包装过，该条件类型就不属于分布式条件类型。
 // 所以在运算时就不会被分解成多个条件运算分支。
 
