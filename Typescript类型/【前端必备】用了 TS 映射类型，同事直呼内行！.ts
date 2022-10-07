@@ -156,10 +156,10 @@ const students11: Students11 = {
 
 // 6.=========================================================
 type a = keyof string
-type b = Record<`on${Capitalize<string>}`, any>
+type b = Record<`on${Capitalize<Exclude<string, ''>>}`, (params?: unknown) => unknown>
 
 const A: b = {
-	on: 1,
-	onClick: 2,
-	onclick: 3
+	on: () => 'str',
+	onClick: (num) => num,
+	onclick: () => {}
 }
