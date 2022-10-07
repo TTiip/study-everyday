@@ -134,12 +134,32 @@ export enum Grade {
   Senior
 }
 
-type Students = Record<keyof typeof Grade, string[]>
+type Students = Record<`on${keyof typeof Grade}`, string[]>
 
 const students: Students = {
+  onFreshman: ['David', 'John'],
+  onsophomore: [],
+  onJunior: ['Lily'],
+  onSenior: ['Tom'],
+	ontest: 112234
+};
+
+type Students11 = Record<keyof typeof Grade, string[]>
+
+const students11: Students11 = {
   Freshman: ['David', 'John'],
   sophomore: [],
   Junior: ['Lily'],
   Senior: ['Tom'],
 	test: 112234
 };
+
+// 6.=========================================================
+type a = keyof string
+type b = Record<`on${Capitalize<string>}`, any>
+
+const A: b = {
+	on: 1,
+	onClick: 2,
+	onclick: 3
+}
