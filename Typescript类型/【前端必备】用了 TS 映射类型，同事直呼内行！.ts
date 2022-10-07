@@ -124,3 +124,22 @@ type Bool2 = Human extends Duck ? 'yes' : 'no' // 'yes'
 
 // 此处可以简单的理解成 “多属性的” 可以分配给 “少属性的”
 // 少的 不能 给多的 (因为少的不包含多的中的一些属性嘛。)
+
+// 5.=========================================================
+// 限制类型
+export enum Grade {
+  Freshman,
+  sophomore,
+  Junior,
+  Senior
+}
+
+type Students = Record<keyof typeof Grade, string[]>
+
+const students: Students = {
+  Freshman: ['David', 'John'],
+  sophomore: [],
+  Junior: ['Lily'],
+  Senior: ['Tom'],
+	test: 112234
+};
