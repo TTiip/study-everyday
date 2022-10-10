@@ -283,6 +283,22 @@ const urlParse = (url: string) => {
   return obj
 }
 
+const getImgSize = () => {
+  let url = 'https://txy.test.webank.com/tc-k/querydata/html/hjAdmAdminPic/tu1-183775801727.png';
+  var xhr = new XMLHttpRequest();
+  xhr.open('HEAD', url, true);
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState == 4) {
+      if (xhr.status == 200) {
+        alert('Size in bytes: ' + xhr.getResponseHeader('Content-Length'));
+      } else {
+        alert('ERROR');
+      }
+    }
+  }
+  xhr.send(null)
+}
+
 
 export {
   // 生成水印
@@ -304,5 +320,7 @@ export {
   // 解密
   decrypt,
   // url 中的参数 转换成 对象。 ps：对象转url参数有一个api：new URLSearchParams(object).toString()
-  urlParse
+  urlParse,
+  // 通过网络图片的url获取图片的真实大小
+  getImgSize
 }
