@@ -121,3 +121,143 @@ class mayPromise {
 	console.log('第三步')
 
 ```
+
+
+```
+
+<!-- https://www.bilibili.com/video/BV19SmjY8EFU/?vd_source=aca4f8d8134a08bd2907278ff6c6c9cd -->
+<script>
+	const STATE_CODE = {
+		PENDING: 'pending',
+		FULFILLED: 'fulfilled',
+		REJECTED: 'rejected',
+	}
+
+	// 判断兼容性 使用微任务
+	function runMaicrotasks(cb) {
+		if (typeof queueMicrotask === 'function') {
+			queueMicrotask(cb)
+		} else if (
+			typeof process === 'object' &&
+			typeof process.nextTick === 'function'
+		) {
+			process.nextTick(cb)
+		} else if (typeof MutationObserver === 'function') {
+			const text = document.createTextNode()
+			const observer = new MutationObserver(cb)
+			observer.observe(text, {
+				characterData: true
+			})
+			text.data = '~'
+		} else {
+			setTimeout(cb)
+		}
+	}
+
+	function isPromiseLike (obj) {
+		return typeof obj?.then === 'function'
+	}
+
+	// 手写promise!!
+	class MyPromise {
+		state = 'pending'
+		value
+		handlers = []
+
+		constructor (executor) {
+			const resolve = (val) => {
+				this.setState(STATE_CODE.FULFILLED, val)
+			}
+
+			const reject = (reson) => {
+				this.setState(STATE_CODE.REJECTED, reson)
+			}
+
+			try {
+				executor(resolve, reject)
+			} catch (error) {
+				reject(error)
+			}
+		}
+
+		setState (state, val) {
+			if (this.state !== STATE_CODE.PENDING) {
+				return
+			}
+			this.value = val
+			this.state = state
+			this.runTask()
+		}
+
+		runTask () {
+			// 注册微任务
+			runMaicrotasks(() => {
+				if (this.state !== STATE_CODE.PENDING) {
+					this.handlers.forEach(cb => cb())
+					this.handlers = []
+				}
+			})
+		}
+
+		then(onFulFilled, onRejected) {
+			return new MyPromise((resolve, reject) => {
+				this.handlers.push(() => {
+					const cb = this.state === STATE_CODE.FULFILLED ? onFulFilled : onRejected
+					try {
+						// 判断传入的cb 是不是一个函数
+						const res = typeof cb === 'function' ? cb(this.value) : this.value
+						if (isPromiseLike(res)) {
+							res.then(resolve, reject)
+						} else {
+							resolve(res)
+						}
+					} catch (err) {
+						reject(err)
+					}
+				})
+				this.runTask()
+			})
+		}
+
+		catch (onRejected) {
+			return this.then(null, onRejected)
+		}
+
+		finally (onFinally) {
+			return this.then(
+				(res) => {
+					onFinally()
+					return res
+				}, (err) => {
+					onFinally()
+					throw new Error(err)
+				}
+			)
+		}
+	}
+
+	const p = new MyPromise((resolve, reject) => {
+		resolve(1)
+	})
+
+	const p1 = p.then(res => {
+		console.log(res, '第一个res')
+		return new MyPromise((resolve, reject) => {
+			resolve(2)
+		})
+	})
+
+	p1.then(res => {
+		console.log(res, 'p1 - then')
+	})
+	.catch(err => {
+		console.log(err, 'catch - err')
+	})
+	.finally(() => {
+		console.log(112233)
+	})
+
+	console.log(p.state, 'p.state')
+</script>
+
+```
